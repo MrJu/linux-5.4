@@ -18,3 +18,6 @@ requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
 
 1. O0 patch based on linux-5.4 defconfig
+2. O0 build config based on defconfig
+   make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 O0_defconfig
+   make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 KBUILD_CFLAGS=-O0 Image
