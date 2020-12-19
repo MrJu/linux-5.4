@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0
+CFLAGS_core.o += -O2
 obj-y := core.o
 CFLAGS_core.o += $(call cc-disable-warning, override-init)
 

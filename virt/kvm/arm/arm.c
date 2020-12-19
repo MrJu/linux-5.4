@@ -1446,7 +1446,7 @@ static int init_common_resources(void)
 	return 0;
 }
 
-static int init_subsystems(void)
+static int __init init_subsystems(void)
 {
 	int err = 0;
 
@@ -1493,7 +1493,7 @@ out:
 	return err;
 }
 
-static void teardown_hyp_mode(void)
+static void __init teardown_hyp_mode(void)
 {
 	int cpu;
 
@@ -1506,7 +1506,7 @@ static void teardown_hyp_mode(void)
 /**
  * Inits Hyp-mode on all online CPUs
  */
-static int init_hyp_mode(void)
+static int __init init_hyp_mode(void)
 {
 	int cpu;
 	int err = 0;
@@ -1662,7 +1662,7 @@ void kvm_arch_irq_bypass_start(struct irq_bypass_consumer *cons)
 /**
  * Initialize Hyp-mode and memory mappings on all CPUs.
  */
-int kvm_arch_init(void *opaque)
+int __init kvm_arch_init(void *opaque)
 {
 	int err;
 	int ret, cpu;
@@ -1726,7 +1726,7 @@ void kvm_arch_exit(void)
 	kvm_perf_teardown();
 }
 
-static int arm_init(void)
+static int __init arm_init(void)
 {
 	int rc = kvm_init(NULL, sizeof(struct kvm_vcpu), 0, THIS_MODULE);
 	return rc;

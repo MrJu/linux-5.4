@@ -351,7 +351,7 @@ phys_addr_t memblock_phys_alloc_range(phys_addr_t size, phys_addr_t align,
 				      phys_addr_t start, phys_addr_t end);
 phys_addr_t memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid);
 
-static inline phys_addr_t memblock_phys_alloc(phys_addr_t size,
+static inline phys_addr_t __init memblock_phys_alloc(phys_addr_t size,
 					      phys_addr_t align)
 {
 	return memblock_phys_alloc_range(size, align, 0,
@@ -401,7 +401,7 @@ static inline void * __init memblock_alloc_node(phys_addr_t size,
 				      MEMBLOCK_ALLOC_ACCESSIBLE, nid);
 }
 
-static inline void __init memblock_free_early(phys_addr_t base,
+static inline void memblock_free_early(phys_addr_t base,
 					      phys_addr_t size)
 {
 	memblock_free(base, size);

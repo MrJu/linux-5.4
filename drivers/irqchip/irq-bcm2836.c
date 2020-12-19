@@ -182,7 +182,7 @@ static const struct irq_domain_ops bcm2836_arm_irqchip_intc_ops = {
 	.map = bcm2836_map,
 };
 
-static void
+static void __init
 bcm2836_arm_irqchip_smp_init(void)
 {
 #ifdef CONFIG_SMP

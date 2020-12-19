@@ -4313,7 +4313,7 @@ static void check_processor_compat(void *rtn)
 	*(int *)rtn = kvm_arch_check_processor_compat();
 }
 
-int kvm_init(void *opaque, unsigned vcpu_size, unsigned vcpu_align,
+int __init kvm_init(void *opaque, unsigned vcpu_size, unsigned vcpu_align,
 		  struct module *module)
 {
 	int r;

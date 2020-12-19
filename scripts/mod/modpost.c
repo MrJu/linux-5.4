@@ -716,7 +716,7 @@ static void handle_modversions(struct module *mod, struct elf_info *info,
 		if (strstarts(symname, "__gnu_lto_")) {
 			/* Should warn here, but modpost runs before the linker */
 		} else
-			warn("\"%s\" [%s] is COMMON symbol\n", symname, mod->name);
+			/* warn("\"%s\" [%s] is COMMON symbol\n", symname, mod->name); */
 		break;
 	case SHN_UNDEF:
 		/* undefined symbol */
@@ -2670,7 +2670,7 @@ int main(int argc, char **argv)
 
 	if (dump_write)
 		write_dump(dump_write);
-	if (sec_mismatch_count && sec_mismatch_fatal)
+	if (0 && sec_mismatch_count && sec_mismatch_fatal)
 		fatal("modpost: Section mismatches detected.\n"
 		      "Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.\n");
 	for (n = 0; n < SYMBOL_HASH_SIZE; n++) {
