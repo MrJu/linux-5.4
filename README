@@ -21,3 +21,4 @@ the problems which may result by upgrading your kernel.
 2. O0 build config based on defconfig
    make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 O0_defconfig
    make CROSS_COMPILE=aarch64-linux-gnu- ARCH=arm64 KBUILD_CFLAGS=-O0 Image
+3. optimize mm/memory.c in O0
