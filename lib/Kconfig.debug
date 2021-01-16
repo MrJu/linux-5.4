@@ -18,6 +18,15 @@ config PRINTK_TIME
 	  The behavior is also controlled by the kernel command line
 	  parameter printk.time=1. See Documentation/admin-guide/kernel-parameters.rst
 
+config PRINTK_CPU
+	bool "Show CPU number along with timing information"
+	depends on PRINTK_TIME
+	help
+	  Selecting this option adds the CPU number to be added to
+	  timestamps of printk() messages. This can be useful when
+	  messages from several CPUs are interleaved, in particular
+	  for stack traces.
+
 config PRINTK_CALLER
 	bool "Show caller information on printks"
 	depends on PRINTK

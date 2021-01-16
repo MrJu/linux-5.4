@@ -370,6 +370,7 @@ struct printk_log {
 	u16 len;		/* length of entire record */
 	u16 text_len;		/* length of text buffer */
 	u16 dict_len;		/* length of dictionary buffer */
+	u16 cpu;		/* cpu the message was generated on */
 	u8 facility;		/* syslog facility */
 	u8 flags:5;		/* internal record flags */
 	u8 level:3;		/* syslog level */
@@ -645,6 +646,7 @@ static int log_store(u32 caller_id, int facility, int level,
 	msg->facility = facility;
 	msg->level = level & 7;
 	msg->flags = flags & 0x1f;
+	msg->cpu = smp_processor_id();
 	if (ts_nsec > 0)
 		msg->ts_nsec = ts_nsec;
 	else
@@ -1264,12 +1266,17 @@ static size_t print_syslog(unsigned int level, char *buf)
 	return sprintf(buf, "<%u>", level);
 }
 
-static size_t print_time(u64 ts, char *buf)
+static size_t print_time(u64 ts, u16 cpu, char *buf)
 {
 	unsigned long rem_nsec = do_div(ts, 1000000000);
 
+#ifdef CONFIG_PRINTK_CPU
+	return sprintf(buf, "[%5lu.%06lu] (%x)",
+			(unsigned long)ts, rem_nsec / 1000, cpu);
+#else
 	return sprintf(buf, "[%5lu.%06lu]",
 		       (unsigned long)ts, rem_nsec / 1000);
+#endif
 }
 
 #ifdef CONFIG_PRINTK_CALLER
@@ -1294,7 +1301,7 @@ static size_t print_prefix(const struct printk_log *msg, bool syslog,
 		len = print_syslog((msg->facility << 3) | msg->level, buf);
 
 	if (time)
-		len += print_time(msg->ts_nsec, buf + len);
+		len += print_time(msg->ts_nsec, msg->cpu, buf + len);
 
 	len += print_caller(msg->caller_id, buf + len);
 
@@ -1823,6 +1830,7 @@ static struct cont {
 	size_t len;			/* length == 0 means unused buffer */
 	u32 caller_id;			/* printk_caller_id() of first print */
 	u64 ts_nsec;			/* time of first print */
+	u16 cpu;			/* cpu the message was generated on */
 	u8 level;			/* log level of first message */
 	u8 facility;			/* log facility of first message */
 	enum log_flags flags;		/* prefix, newline flags */
@@ -1851,6 +1859,7 @@ static bool cont_add(u32 caller_id, int facility, int level,
 		cont.facility = facility;
 		cont.level = level;
 		cont.caller_id = caller_id;
+		cont.cpu = smp_processor_id();
 		cont.ts_nsec = local_clock();
 		cont.flags = flags;
 	}
