@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Test modules
+#
+
+menuconfig TEST
+	tristate "Test support"
+	help
+	  This enables test module.
+
+if TEST
+
+config TIMER
+	tristate "Timer test module"
+	depends on NO_HZ_IDLE || NO_HZ_FULL
+	help
+	  Must configure idle-states with local-timer-stop;
+          Must configure timer with no always-on.
+endif

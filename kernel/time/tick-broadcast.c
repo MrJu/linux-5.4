@@ -24,6 +24,9 @@
  * timer stops in C3 state.
  */
 
+int timer_test;
+EXPORT_SYMBOL(timer_test);
+
 static struct tick_device tick_broadcast_device;
 static cpumask_var_t tick_broadcast_mask __cpumask_var_read_mostly;
 static cpumask_var_t tick_broadcast_on __cpumask_var_read_mostly;
@@ -607,6 +610,9 @@ static void tick_handle_oneshot_broadcast(struct clock_event_device *dev)
 	ktime_t now, next_event;
 	int cpu, next_cpu = 0;
 	bool bc_local;
+
+	if (timer_test == 2)
+		return;
 
 	raw_spin_lock(&tick_broadcast_lock);
 	dev->next_event = KTIME_MAX;
