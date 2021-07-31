@@ -55,7 +55,7 @@ define timeconst(hz) {
 	print "#error \qinclude/generated/timeconst.h has the wrong HZ value!\q\n"
 	print "#endif\n\n"
 
-	if (hz < 2) {
+	if (hz < 0) {
 		print "#error Totally bogus HZ value!\n"
 	} else {
 		s=fmuls(32,1000,hz)

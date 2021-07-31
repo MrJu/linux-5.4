@@ -17,6 +17,12 @@ choice
 	 per second.
 
 
+	config HZ_1
+		bool "1 HZ"
+
+	config HZ_10
+		bool "10 HZ"
+
 	config HZ_100
 		bool "100 HZ"
 	help
@@ -50,6 +56,8 @@ endchoice
 
 config HZ
 	int
+	default 1 if HZ_1
+	default 10 if HZ_10
 	default 100 if HZ_100
 	default 250 if HZ_250
 	default 300 if HZ_300
