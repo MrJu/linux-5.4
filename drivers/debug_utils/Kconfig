@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-2.0
+#
+#  debug utils configuration
+#
+
+menuconfig DEBUG_UTILS
+	bool "debug utils support"
+	default y
+	---help---
+	  This option adds extra debug utils.
+
+if DEBUG_UTILS
+config DEBUG_UTILS_QUEUE_BUFFER
+	bool "queue buffer support"
+	default y
+	---help---
+	  provide print_queue and flush_queue interfaces.
+endif
